@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Subnet Calculator</title>
+
+        <style>
+            body {
+                font-family: system-ui;
+                margin: 2rem auto;
+                width: 50rem;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-top: 2rem;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 0.5rem;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Subnet Calculator</h1>
+
+        <p>Indirizzo di rete:</p>
+        <input type="text" id="ipv4">
+
+        <p>Prefix length:</p>
+        <input type="text" id="prefix">
+
+        <button onclick="genera()">Genera tabella</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>decimale</th>
+                    <th>binario</th>
+                </tr>
+            </thead>
+            <tbody id="tabella">
+            </tbody>
+        </table>
+
+        <script>
+            function genera() {
+                let righeDaAggiungere = ''
+
+                const ipv4 = document.getElementById('ipv4').value
+                const prefix = parseInt(document.getElementById('prefix').value)
+
+                const ipBinario = ipInBinario(ipv4)
+                const rete = ipBinario.slice(0, prefix)
+
+                const righe = Math.pow(2, 32 - prefix)
+
+                for (let i = 0; i < righe; i++) {
+                    const host = i.toString(2).padStart(32 - prefix, '0')
+                    const ip = rete + host
+                    const ipDecimale = ipInDecimale(ip)
+                    
+                    righeDaAggiungere += `
+                        <tr>
+                            <td>${i + 1}</td>
+                            <td>${ipDecimale}</td>
+                            <td>
+                                <span style="color: blue;">${rete}</span>
+                                <span style="color: red;">${host}</span>
+                            </td>
+                        </tr>
+                    `
+                }
+
+                document.getElementById('tabella').innerHTML = righeDaAggiungere
+            }
+
+            function ipInBinario(ip) {
+                let ipBinario = ''
+                const ottetti = ip.split('.')
+
+                for (const ottetto of ottetti) {
+                    ipBinario += parseInt(ottetto).toString(2).padStart(8, '0')
+                }
+
+                return ipBinario
+            }
+
+            function ipInDecimale(ip) {
+                const ottetti = [
+                    parseInt(ip.slice(0, 8), 2),
+                    parseInt(ip.slice(8, 16), 2),
+                    parseInt(ip.slice(16, 24), 2),
+                    parseInt(ip.slice(24, 32), 2)
+                ]
+
+                return ottetti.join('.')
+            }
+        </script>
+    </body>
+</html>

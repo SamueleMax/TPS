@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Calcolatrice</title>
+
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            p {
+                margin: 0;
+            }
+            main {
+                display: flex;
+                justify-content: center;
+                padding: 2rem;
+            }
+            #exp {
+                font-size: 2rem;
+                border: 2px solid black;
+                padding: 1rem;
+            }
+            
+            .keyboard {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .row {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+            }
+            .row button {
+                width: 4rem;
+                height: 4rem;
+                font-size: 2rem;
+                border: 2px solid black;
+                background: transparent;
+                cursor: pointer;
+            }
+            .row button:hover {
+                background: lightgray;
+            }
+            .calc {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <div class="calc">
+                <p id="exp">0</p>
+                <div class="keyboard">
+                    <div class="row">
+                        <button type="button" onclick="num(1)">1</button>
+                        <button type="button" onclick="num(2)">2</button>
+                        <button type="button" onclick="num(3)">3</button>
+                        <button type="button" onclick="op('+')">+</button>
+                    </div>
+                    <div class="row">
+                        <button type="button" onclick="num(4)">4</button>
+                        <button type="button" onclick="num(5)">5</button>
+                        <button type="button" onclick="num(6)">6</button>
+                        <button type="button" onclick="op('-')">-</button>
+                    </div>
+                    <div class="row">
+                        <button type="button" onclick="num(7)">7</button>
+                        <button type="button" onclick="num(8)">8</button>
+                        <button type="button" onclick="num(9)">9</button>
+                        <button type="button" onclick="op('*')">*</button>
+                    </div>
+                    <div class="row">
+                        <button style="flex-grow: 3;" type="button" onclick="num(0)">0</button>
+                        <button type="button" onclick="op('/')">/</button>
+                    </div>
+                    <div class="row">
+                        <button type="button" style="flex-grow: 2;" onclick="del()">DEL</button>
+                        <button type="button" style="flex-grow: 2;" onclick="calc()">=</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            function num(num) {
+                let exp = document.getElementById('exp');
+                if (exp.innerHTML.length >= 15) {
+                    alert('Massimo 15 caratteri');
+                    return;
+                }
+                if (exp.innerHTML === '0') {
+                    exp.innerHTML = num;
+                } else {
+                    exp.innerHTML += num;
+                }
+            }
+
+            function op(op) {
+                let exp = document.getElementById('exp');
+                if (exp.innerHTML.length >= 15) {
+                    alert('Massimo 15 caratteri');
+                    return;
+                }
+                let lastChar = exp.innerHTML.slice(-1);
+                if (lastChar !== '+' && lastChar !== '-' && lastChar !== '*' && lastChar !== '/') {
+                    exp.innerHTML += op;
+                }
+            }
+
+            function del() {
+                let exp = document.getElementById('exp');
+                exp.innerHTML = '0';
+            }
+
+            function calc() {
+                let exp = document.getElementById('exp');
+                if (exp.innerHTML.length >= 15) {
+                    alert('Massimo 15 caratteri');
+                    return;
+                }
+                let result = eval(exp.innerHTML);
+                exp.innerHTML = result;
+            }
+        </script>
+    </body>
+</html>

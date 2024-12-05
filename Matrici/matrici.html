@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Matrici</title>
+
+        <style>
+            main {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            td {
+                border: 1px solid black;
+                width: 50px;
+                height: 50px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <table>
+                <tbody>
+                    <tr>
+                        <td id="e1"></td>
+                        <td id="e2"></td>
+                        <td id="e3"></td>
+                        <td id="e4"></td>
+                    </tr>
+                    <tr>
+                        <td id="e5"></td>
+                        <td id="e6"></td>
+                        <td id="e7"></td>
+                        <td id="e8"></td>
+                    </tr>
+                    <tr>
+                        <td id="e9"></td>
+                        <td id="e10"></td>
+                        <td id="e11"></td>
+                        <td id="e12"></td>
+                    </tr>
+                    <tr>
+                        <td id="e13"></td>
+                        <td id="e14"></td>
+                        <td id="e15"></td>
+                        <td id="e16"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button type="button" onclick="rotateSX()">Gira SX</button>
+            <button type="button" onclick="rotateDX()">Gira DX</button>
+        </main>
+
+        <script>
+            function randomInt() {
+                return Math.floor(Math.random() * 100)
+            }
+
+            // Riempi matrice con numeri casuali
+            let matrice = []
+            for (let i = 0; i < 4; i++) {
+                matrice[i] = []
+                for (let j = 0; j < 4; j++) {
+                    matrice[i][j] = randomInt()
+                }
+            }
+
+            // Funzione per visualizzare la matrice nell'html
+            function display() {
+                let index = 1
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        document.getElementById('e' + index).innerText = matrice[i][j]
+                        index++
+                    }
+                }
+            }
+
+            // Ruota matrice a sinistra esternamente e a destra internamente
+            function rotateSX() {
+                // Prendi i valori della parte esterna
+                let tempOuter = [
+                    matrice[0][0], matrice[0][1], matrice[0][2], matrice[0][3],
+                    matrice[1][3], matrice[2][3], matrice[3][3],
+                    matrice[3][2], matrice[3][1], matrice[3][0],
+                    matrice[2][0], matrice[1][0]
+                ];
+                
+                // Ruota parte esterna
+                tempOuter.push(tempOuter.shift());
+
+                // Rimetti valori esterni modificati nella matrice originale
+                [matrice[0][0], matrice[0][1], matrice[0][2], matrice[0][3],
+                matrice[1][3], matrice[2][3], matrice[3][3],
+                matrice[3][2], matrice[3][1], matrice[3][0],
+                matrice[2][0], matrice[1][0]] = tempOuter;
+
+                // Prendi i valori della parte interna
+                let tempInner = [
+                    matrice[1][1], matrice[1][2],
+                    matrice[2][2], matrice[2][1]
+                ];
+
+                // Ruota parte interna verso destra
+                tempInner.unshift(tempInner.pop());
+
+                // Rimetti valori interni nella matrice originale
+                [matrice[1][1], matrice[1][2],
+                matrice[2][2], matrice[2][1]] = tempInner;
+
+                display();
+            }
+
+            function rotateDX() {
+                // Prendi valori esterni
+                let tempOuter = [
+                    matrice[0][0], matrice[0][1], matrice[0][2], matrice[0][3],
+                    matrice[1][3], matrice[2][3], matrice[3][3],
+                    matrice[3][2], matrice[3][1], matrice[3][0],
+                    matrice[2][0], matrice[1][0]
+                ];
+
+                // Ruota parte esterna verso destra
+                tempOuter.unshift(tempOuter.pop());
+
+                // Rimetti valori ruotati nella matrice originaria
+                [matrice[0][0], matrice[0][1], matrice[0][2], matrice[0][3],
+                matrice[1][3], matrice[2][3], matrice[3][3],
+                matrice[3][2], matrice[3][1], matrice[3][0],
+                matrice[2][0], matrice[1][0]] = tempOuter;
+
+                // Prendi valori interni
+                let tempInner = [
+                    matrice[1][1], matrice[1][2],
+                    matrice[2][2], matrice[2][1]
+                ];
+
+                // Ruota valori interni verso sinistra
+                tempInner.push(tempInner.shift());
+
+                // Riapplica valori interni nella matriec originale
+                [matrice[1][1], matrice[1][2],
+                matrice[2][2], matrice[2][1]] = tempInner;
+
+                display();
+            }
+
+            display()
+
+        </script>
+    </body>
+</html>

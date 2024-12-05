@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Anagrafica - Tabella</title>
+
+        <style>
+            body {
+                font-family: system-ui;
+            }
+            main {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                flex-direction: column;
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            td, th {
+                border: 1px solid black;
+                width: 100px;
+                height: 50px;
+                text-align: center;
+                padding: 1rem;
+            }
+            div {
+                display: flex;
+                gap: 2rem;
+                justify-content: center;
+                margin-bottom: 1rem;
+                margin-top: 3rem;
+            }
+            input {
+                border: 1px solid black;
+                padding: 0.75rem;
+                width: 125px;
+            }
+            button {
+                border: 1px solid black;
+                padding: 0.75rem;
+                width: 125px;
+                background: transparent;
+                cursor: pointer;
+            }
+            button:hover {
+                background: gray;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Cognome</th>
+                        <th>Indirizzo</th>
+                        <th>Città</th>
+                    </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+            </table>
+
+            <div>
+                <button type="button" onclick="location.href = 'index.html'">Pagina precedente</button>
+            </div>
+        </main>
+
+        <script>
+            let items = [];
+            if (localStorage.getItem('elementi') != null) {
+                items = JSON.parse(localStorage.getItem('elementi'));
+                renderTable();
+            }
+
+            function renderTable() {
+                let table = '';
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+                    table += `
+                    <tr>
+                        <td>${item.nome}</td>
+                        <td>${item.cognome}</td>
+                        <td>${item.indirizzo}</td>
+                        <td>${item.citta}</td>
+                    </tr>
+                    `;
+                }
+                document.getElementById('rows').innerHTML = table;
+            }
+        </script>
+    </body>
+</html>

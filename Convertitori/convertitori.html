@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Convertitori</title>
+    </head>
+    <body>
+        <h1>Convertitori</h1>
+        <input id="numero" type="text" placeholder="Numero">
+        <button type="button" onclick="converti()">Converti</button>
+        <p>Base di partenza:</p>
+        <input type="radio" id="binario" name="base" value="binario">
+        <label for="binario">Binario</label>
+        <input type="radio" id="ottale" name="base" value="ottale">
+        <label for="ottale">Ottale</label>
+        <input type="radio" id="esadecimale" name="base" value="esadecimale">
+        <label for="esadecimale">Esadecimale</label>
+        <p id="risultato">Risultato: </p>
+
+        <script>
+            function binToDec(str) {
+                let num = 0;
+                for (let i = str.length - 1; i >= 0; i--) {
+                    num += parseInt(str[i]) * Math.pow(2, str.length - 1 - i);
+                }
+                return num;
+            }
+
+            function octToDec(str) {
+                let num = 0;
+                for (let i = str.length - 1; i >= 0; i--) {
+                    num += parseInt(str[i]) * Math.pow(8, str.length - 1 - i);
+                }
+                return num;
+            }
+
+            function hexToDec(str) {
+                let decimal = 0;
+                const hexDigits = '0123456789ABCDEF';
+                str = str.toUpperCase();
+                for (let i = str.length - 1; i >= 0; i--) {
+                    decimal += hexDigits.indexOf(str[i]) * Math.pow(16, str.length - 1 - i);
+                }
+                return decimal;
+            }
+
+            function converti() {
+                const num = document.getElementById('numero');
+                const pRis = document.getElementById('risultato');
+
+                if (document.getElementById('binario').checked) {
+                    pRis.innerHTML = 'Risultato: ' + binToDec(num.value);
+                } else if (document.getElementById('ottale').checked) {
+                    pRis.innerHTML = 'Risultato: ' + octToDec(num.value);
+                } else if (document.getElementById('esadecimale').checked) {
+                    pRis.innerHTML = 'Risultato: ' + hexToDec(num.value);
+                }
+            }
+        </script>
+    </body>
+</html>

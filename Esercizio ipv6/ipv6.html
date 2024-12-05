@@ -1,0 +1,48 @@
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Esercizio ipv6</title>
+
+        <style>
+            body {
+                font-family: system-ui;
+                width: 50rem;
+                margin: 2rem auto;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Esercizio IPv6</h1>
+        <input type="text" id="ipv6" placeholder="mac address">
+        <button type="button" onclick="genera()">Genera LLA</button>
+        <p id="result"></p>
+
+        <script>
+            function genera() {
+                let ipv6 = document.getElementById('ipv6').value
+                let gruppi = ipv6.split(':')
+
+                gruppi[0] = hexToBin(gruppi[0])
+                if (gruppi[0].charAt(6) == '0') {
+                    gruppi[0] = gruppi[0].substring(0, 6) + '1' + gruppi[0].substring(7)
+                } else {
+                    gruppi[0] = gruppi[0].substring(0, 6) + '0' + gruppi[0].substring(7)
+                }
+                gruppi[0] = binToHex(gruppi[0])
+
+                ipv6 = 'fe80::' + gruppi[0] + gruppi[1] + ':' + gruppi[2] + 'ff:fe' + gruppi[3] + ':' + gruppi[4] + gruppi[5]
+
+                document.getElementById('result').textContent = ipv6
+            }
+
+            function hexToBin(hex) {
+                return parseInt(hex, 16).toString(2).padStart(8, '0')
+            }
+
+            function binToHex(bin) {
+                return parseInt(bin, 2).toString(16)
+            }
+        </script>
+    </body>
+</html>

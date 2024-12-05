@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Archivio</title>
+
+        <style>
+            body {
+                font-family: system-ui;
+            }
+            main {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                justify-content: center;
+                align-items: center;
+            }
+            .form {
+                display: flex;
+                flex-direction: column;
+                width: 250px;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+            input {
+                padding: 0.5rem;
+                border: 1px solid black;
+                background: transparent;
+            }
+            button {
+                border: 1px solid black;
+                background: transparent;
+                cursor: pointer;
+                padding: 0.75rem;
+            }
+            button:hover {
+                background: gray;
+            }
+            table {
+                margin-top: 2rem;
+                border-collapse: collapse;
+                width: 700px;
+            }
+            td, th {
+                border: 1px solid black;
+                height: 40px;
+                text-align: center;
+            }
+            .dashboard {
+                display: flex;
+                gap: 5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <h1>Archivio prodotti</h1>
+            <div class="dashboard">
+                <div class="form">
+                    <h3>Nuovo elemento</h3>
+                    <input type="text" id="nome" placeholder="Nome">
+                    <input type="text" id="categoria" placeholder="Categoria">
+                    <input type="text" id="prezzo" placeholder="Prezzo">
+                    <input type="text" id="quantita" placeholder="Quantità">
+                    <button type="button" onclick="addItem()">Aggiungi</button>
+                </div>
+                <div class="form">
+                    <h3>Elimina elemento</h3>
+                    <input type="text" id="id" placeholder="ID">
+                    <button type="button" onclick="deleteItem()">Elimina</button>
+                </div>
+                <div class="form">
+                    <h3>Ricerca elemento (nome o categoria)</h3>
+                    <input type="text" id="search" placeholder="Cerca">
+                    <button type="button" onclick="search()">Cerca</button>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Prezzo</th>
+                    <th>Quantità</th>
+                </thead>
+                <tbody id="table"></tbody>
+            </table>
+        </main>
+
+        <script>
+            // Classe archivio
+            function ArchivioProdotto() {
+                this.archivio = []
+            }
+
+            // Istanzia un archivio
+            let archivioProdotto = new ArchivioProdotto()
+            let archivio = archivioProdotto.archivio
+
+            // Classe prodotto
+            function Prodotto(id, nome, categoria, prezzo, quantita) {
+                this.id = id
+                this.nome = nome
+                this.categoria = categoria
+                this.prezzo = prezzo
+                this.quantita = quantita
+            }
+
+            // Metodo per aggiungere un nuovo elemento
+            function addItem() {
+                // Registra nome, categoria, prezzo e quantità forniti dall'utente
+                const id = archivio.length + 1
+                const nome = document.getElementById('nome').value
+                const categoria = document.getElementById('categoria').value
+                const prezzo = document.getElementById('prezzo').value
+                const quantita = document.getElementById('quantita').value
+
+                // Istanzia un nuovo prodotto e aggiungilo all'archivio
+                let prodotto = new Prodotto(id, nome, categoria, prezzo, quantita)
+                archivio.push(prodotto)
+                renderTable()
+
+                // Resetta i campi del form
+                document.getElementById('nome').value = ''
+                document.getElementById('categoria').value = ''
+                document.getElementById('prezzo').value = ''
+                document.getElementById('quantita').value = ''
+            }
+
+            // Metodo per visualizzare la tabella
+            function renderTable() {
+                let table = ''
+
+                // Crea una riga per ogni elemento dell'archivio
+                for (let i = 0; i < archivio.length; i++) {
+                    const item = archivio[i]
+                    table += `
+                        <tr>
+                            <td>${item.id}</td>
+                            <td>${item.nome}</td>
+                            <td>${item.categoria}</td>
+                            <td>${item.prezzo}</td>
+                            <td>${item.quantita}</td>
+                        </tr>
+                    `
+                }
+
+                document.getElementById('table').innerHTML = table
+            }
+
+            // Metodo per eliminare un elemento
+            function deleteItem() {
+                const n = document.getElementById('id').value
+
+                // Elimina l'elemento con l'id fornito dall'utente
+                for (let i = 0; i < archivio.length; i++) {
+                    if (archivio[i].id == n) {
+                        archivio.splice(i, 1)
+                        renderTable()
+                    }
+                }
+
+                document.getElementById('id').value = ''
+            }
+
+            // Metodo per cercare un elemento in base al nome o alla categoria
+            function search() {
+                const search = document.getElementById('search').value
+                let result = []
+
+                // Cerca l'elemento in base al nome o alla categoria
+                for (let i = 0; i < archivio.length; i++) {
+                    if (archivio[i].nome.toLowerCase().includes(search.toLowerCase()) || archivio[i].categoria.toLowerCase().includes(search.toLowerCase())) {
+                        result.push(archivio[i])
+                    }
+                }
+
+                // Visualizza gli elementi trovati nella tabell
+                let table = ''
+
+                // Crea una riga per ogni elemento trovato
+                for (let i = 0; i < result.length; i++) {
+                    const item = result[i]
+                    table += `
+                        <tr>
+                            <td>${item.id}</td>
+                            <td>${item.nome}</td>
+                            <td>${item.categoria}</td>
+                            <td>${item.prezzo}</td>
+                            <td>${item.quantita}</td>
+                        </tr>
+                    `
+                }
+
+                document.getElementById('table').innerHTML = table
+            }
+        </script>
+    </body>
+</html>
