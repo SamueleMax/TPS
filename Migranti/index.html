@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Tabella Migranti</title>
+
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                margin: 2rem auto;
+                padding: 0;
+                max-width: 50rem;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-top: 2rem;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 0.5rem;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Tabella Migranti</h1>
+        <input type="file" onchange="leggiFile(this)">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Anno</th>
+                    <th>Numero migranti</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+        
+        <script>
+            function leggiFile(input) {
+                const file = input.files[0]
+                const lettore = new FileReader()
+                lettore.readAsText(file)
+
+                lettore.onload = function() {
+                    const contenuto = lettore.result
+                    mostraTabella(contenuto)
+                }
+            }
+
+            function mostraTabella(contenuto) {
+                const lines = contenuto.split('\n').slice(1) // salta la prima riga che contiene solo gli header
+                const tabella = []
+                for (const line of lines) {
+                    const rigaSplittata = line.split(",")
+                    const anno = rigaSplittata[0].slice(1, -1)
+                    const persone = rigaSplittata[1].slice(1, -1)
+                    tabella.push({'anno': anno, 'persone': persone})
+                }
+
+                let righeDaAggiungere = ''
+                const tbody = document.getElementById('tbody')
+                for (const row of tabella) {
+                    righeDaAggiungere += '<tr>' + '<td>' + row.anno + '</td><td>' + row.persone + '</td></tr>'
+                }
+                tbody.innerHTML = righeDaAggiungere
+            }
+        </script>
+    </body>
+</html>
