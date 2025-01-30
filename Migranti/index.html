@@ -7,6 +7,9 @@
 
         <style>
             body {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
                 font-family: system-ui, sans-serif;
                 margin: 2rem auto;
                 padding: 0;
@@ -21,6 +24,9 @@
                 border: 1px solid black;
                 padding: 0.5rem;
                 text-align: center;
+            }
+            canvas {
+                border: 1px solid black;
             }
         </style>
     </head>
@@ -37,6 +43,8 @@
             </thead>
             <tbody id="tbody"></tbody>
         </table>
+
+        <canvas id="canvas" width="800" height="500"></canvas>
         
         <script>
             function leggiFile(input) {
@@ -47,6 +55,7 @@
                 lettore.onload = function() {
                     const contenuto = lettore.result
                     mostraTabella(contenuto)
+                    disegnaGrafico(contenuto)
                 }
             }
 
@@ -66,6 +75,67 @@
                     righeDaAggiungere += '<tr>' + '<td>' + row.anno + '</td><td>' + row.persone + '</td></tr>'
                 }
                 tbody.innerHTML = righeDaAggiungere
+            }
+
+            function disegnaGrafico(contenuto) {
+                const canvas = document.getElementById('canvas')
+                const ctx = canvas.getContext('2d')
+
+                const lines = contenuto.split('\n').slice(1) // salta la prima riga che contiene solo gli header
+                const anniArr = []
+                const personeArr = []
+                for (const line of lines) {
+                    const rigaSplittata = line.split(",")
+                    const anno = rigaSplittata[0].slice(1, -1)
+                    const persone = rigaSplittata[1].slice(1, -1)
+                    
+                    anniArr.push(parseInt(anno))
+                    personeArr.push(parseInt(persone))
+                }
+
+                const maxPersone = arrMax(personeArr)
+                const scaleX = (canvas.width - 100) / anniArr.length
+                const scaleY = (canvas.height - 100) / maxPersone
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height) // pulisci canvas
+
+                // Disegna assi
+                ctx.beginPath()
+                ctx.moveTo(50, 50)
+                ctx.lineTo(50, canvas.height - 50)
+                ctx.lineTo(canvas.width - 50, canvas.height - 50)
+                ctx.stroke()
+
+                // Disegna valori sugli assi
+                ctx.font = '10px Arial'
+                ctx.textAlign = 'center'
+                for (let i = 0; i < anniArr.length; i++) {
+                    ctx.fillText(anniArr[i], 50 + i * scaleX + scaleX / 2, canvas.height - 30) // per calcolare la posizione usiamo scaleX/2 in modo da centrare il testo
+                }
+
+                // Disegna i valori dell'asse y
+                ctx.textAlign = 'right'
+                for (let i = 0; i <= maxPersone; i += Math.ceil(maxPersone / 10)) { // il maxPersone/10 serve per avere 10 valori sull'asse y
+                    ctx.fillText(i, 45, canvas.height - 50 - i * scaleY)
+                }
+
+                // Disegna grafico
+                ctx.beginPath()
+                ctx.moveTo(50, canvas.height - 50 - personeArr[0] * scaleY)
+                for (let i = 1; i < anniArr.length; i++) {
+                    ctx.lineTo(50 + i * scaleX, canvas.height - 50 - personeArr[i] * scaleY)
+                }
+                ctx.stroke()
+            }
+
+            function arrMax(arr) {
+                let max = arr[0];
+                for (let i = 1; i < arr.length; i++) {
+                    if (arr[i] > max) {
+                        max = arr[i];
+                    }
+                }
+                return max;
             }
         </script>
     </body>
