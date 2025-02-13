@@ -115,8 +115,8 @@
 
                 // Disegna i valori dell'asse y
                 ctx.textAlign = 'right'
-                for (let i = 0; i <= maxPersone; i += Math.ceil(maxPersone / 10)) { // il maxPersone/10 serve per avere 10 valori sull'asse y
-                    ctx.fillText(i, 45, canvas.height - 50 - i * scaleY)
+                for (let i = 0; i <= 8; i++) {
+                    ctx.fillText(i * 20000, 45, canvas.height - 50 - i * 20000 * scaleY)
                 }
 
                 // Disegna grafico
