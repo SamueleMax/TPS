@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Criptazione</title>
+
+        <style>
+            body {
+                margin: 2rem;
+                font-family: system-ui;
+            }
+            h1 {
+                margin: 0;
+            }
+            main {
+                margin-top: 2rem;
+            }
+            input {
+                border: 1px solid black;
+                border-radius: 0;
+                font-family: system-ui;
+                padding: 0.25rem;
+                font-size: 1rem;
+                width: 250px;
+            }
+            button {
+                border: 1px solid black;
+                border-radius: 0;
+                font-family: system-ui;
+                padding: 0.25rem;
+                font-size: 1rem;
+                cursor: pointer;
+                background: transparent;
+            }
+            button:hover {
+                background: grey;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Criptazione</h1>
+        <a href="./criptazione.html">Pagina di criptazione --></a>
+        <main>
+            <button type="button" onclick="decritta()">Decritta</button>
+            <p id="result">Testo decrittato:</p>
+        </main>
+
+        <script>
+            function decritta() {
+                const txt = localStorage.getItem("txt");
+                const decrittato = atob(txt);
+                document.getElementById("result").textContent = `Testo decrittato: ${decrittato}`;
+            }
+        </script>
+    </body>
+</html>
