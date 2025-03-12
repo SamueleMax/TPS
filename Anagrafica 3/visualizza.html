@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visualizza Dati</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+        }
+        input, button {
+            margin: 0.25rem;
+            padding: 0.25rem 0.5rem;
+        }
+        div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dati Registrati</h1>
+    <table id="tabella">
+        <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Indirizzo</th>
+            <th>Età</th>
+            <th>Sesso</th>
+            <th>Telefono</th>
+            <th>Email</th>
+            <th>Azioni</th>
+        </tr>
+    </table>
+    <a href="index.html">Torna alla Registrazione</a>
+    <button id="cancella">Cancella Tutti</button>
+
+    <script>
+    const tabella = document.getElementById('tabella');
+    
+    function carica() {
+        const dati = JSON.parse(localStorage.getItem('datiAnagrafici'));
+        tabella.innerHTML = `
+            <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Indirizzo</th>
+            <th>Età</th>
+            <th>Sesso</th>
+            <th>Telefono</th>
+            <th>Email</th>
+            <th>Azioni</th>
+            </tr>
+        `;
+        
+        dati.forEach(p => {
+            let riga = `
+            <tr>
+                <td>${p.nome}</td>
+                <td>${p.cognome}</td>
+                <td>${p.indirizzo}</td>
+                <td>${p.eta}</td>
+                <td>${p.sesso}</td>
+                <td>${p.telefono || '-'}</td>
+                <td>${p.email || '-'}</td>
+            </tr>
+            `;
+            tabella.innerHTML += riga;
+        });
+    }
+    
+    document.getElementById('cancella').onclick = function() {
+        localStorage.removeItem('datiAnagrafici');
+        carica();
+    };
+    
+    carica();
+    </script>
+</body>
+</html>
