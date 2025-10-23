@@ -1,0 +1,104 @@
+[
+    {
+        "nome": "Riccardo",
+        "cognome": "Dal Bello",
+        "data_nascita": "2007-05-15",
+        "classe": "5DINF"
+    },
+    {
+        "nome": "Sofia",
+        "cognome": "Bianchi",
+        "data_nascita": "2006-11-02",
+        "classe": "5ALET"
+    },
+    {
+        "nome": "Marco",
+        "cognome": "Rossi",
+        "data_nascita": "2005-03-21",
+        "classe": "4BWEB"
+    },
+    {
+        "nome": "Lucia",
+        "cognome": "Ferrari",
+        "data_nascita": "2008-07-30",
+        "classe": "3CINF"
+    },
+    {
+        "nome": "Alessandro",
+        "cognome": "Conti",
+        "data_nascita": "2006-01-14",
+        "classe": "5DINF"
+    },
+    {
+        "nome": "Martina",
+        "cognome": "Romano",
+        "data_nascita": "2007-09-05",
+        "classe": "4ALET"
+    },
+    {
+        "nome": "Lorenzo",
+        "cognome": "Gallo",
+        "data_nascita": "2009-12-18",
+        "classe": "2BWEB"
+    },
+    {
+        "nome": "Elena",
+        "cognome": "Ricci",
+        "data_nascita": "2005-06-09",
+        "classe": "5AINF"
+    },
+    {
+        "nome": "Matteo",
+        "cognome": "De Luca",
+        "data_nascita": "2008-02-27",
+        "classe": "3DIN"
+    },
+    {
+        "nome": "Giulia",
+        "cognome": "Moretti",
+        "data_nascita": "2007-10-11",
+        "classe": "4CWEB"
+    },
+    {
+        "nome": "Andrea",
+        "cognome": "Bruno",
+        "data_nascita": "2006-04-03",
+        "classe": "5DINF"
+    },
+    {
+        "nome": "Francesca",
+        "cognome": "Greco",
+        "data_nascita": "2009-08-22",
+        "classe": "2ALET"
+    },
+    {
+        "nome": "Paolo",
+        "cognome": "Esposito",
+        "data_nascita": "2005-11-29",
+        "classe": "5BINF"
+    },
+    {
+        "nome": "Chiara",
+        "cognome": "Barbieri",
+        "data_nascita": "2008-05-07",
+        "classe": "3ALET"
+    },
+    {
+        "nome": "Simone",
+        "cognome": "Lombardi",
+        "data_nascita": "2006-09-16",
+        "classe": "4DIN"
+    },
+    {
+        "nome": "Valentina",
+        "cognome": "Serra",
+        "data_nascita": "2007-01-25",
+        "classe": "4BWEB"
+    },
+    {
+        "nome": "Davide",
+        "cognome": "Caruso",
+        "data_nascita": "2009-03-12",
+        "classe": "1CINF"
+    }
+]
