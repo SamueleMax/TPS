@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Anagrafica XML</title>
+
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+            }
+            h1 {
+                margin-bottom: 0;
+            }
+            main {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            header {
+                display: flex;
+                gap: 2rem;
+                align-items: center;
+            }
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 0.5rem 1rem;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <h1>Anagrafica XML</h1>
+            <header>
+                <label for="selection">Stampa:</label>
+                <select id="selection">
+                    <option value="all">Tutto</option>
+                    <option value="adult">Solo maggiorenni</option>
+                </select>
+                <input id="search" type="search" placeholder="Cerca cognome">
+            </header>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Cognome</th>
+                        <th>Data di nascita</th>
+                        <th>Generazione</th>
+                        <th>Classe</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </main>
+
+        <script>
+            let tableData = [];
+            
+            function getGenerazione(dateString) {
+                const year = new Date(dateString).getFullYear();
+                if (year < 1946) return "Silent Generation";
+                if (year < 1965) return "Baby Boomers";
+                if (year < 1981) return "Generazione X";
+                if (year < 1997) return "Millennials";
+                return "Generazione Z";
+            }
+
+            const req = new XMLHttpRequest();
+            req.open("get", "data.xml");
+            req.send();
+            req.onload = function() {
+                const tbody = document.getElementById('tbody');
+
+                const res = req.responseXML;
+                const students = res.getElementsByTagName('student');
+                for (let i = 0; i < students.length; i++) {
+                    const student = students[i];
+                    const nome = student.getElementsByTagName('nome')[0].textContent;
+                    const cognome = student.getElementsByTagName('cognome')[0].textContent;
+                    const data_nascita = student.getElementsByTagName('data_nascita')[0].textContent;
+                    const classe = student.getElementsByTagName('classe')[0].textContent;
+                    tableData.push({nome, cognome, data_nascita, classe});
+                }
+
+                tableData.forEach(element => {
+                    tbody.innerHTML += `<tr><td>${element.nome}</td><td>${element.cognome}</td><td>${element.data_nascita}</td><td>${getGenerazione(element.data_nascita)}</td><td>${element.classe}</td></tr>`;
+                });
+            }
+
+            // Selettore maggiorenni/non maggiorenni
+            const selector = document.getElementById('selection');
+            selector.addEventListener('change', () => {
+                const selection = selector.value;
+                tbody.innerHTML = "";
+                if (selection === "all") {
+                    tableData.forEach(element => {
+                        tbody.innerHTML += `<tr><td>${element.nome}</td><td>${element.cognome}</td><td>${element.data_nascita}</td><td>${getGenerazione(element.data_nascita)}</td><td>${element.classe}</td></tr>`;
+                    });
+                } else {
+                    tableData.forEach(element => {
+                        if ((new Date() - new Date(element.data_nascita)) > 18*365*24*60*60*1000) {
+                            tbody.innerHTML += `<tr><td>${element.nome}</td><td>${element.cognome}</td><td>${element.data_nascita}</td><td>${getGenerazione(element.data_nascita)}</td><td>${element.classe}</td></tr>`;
+                        }
+                    });
+                }
+            });
+
+            // Ricerca
+            const search = document.getElementById('search');
+            search.addEventListener('input', () => {
+                const query = search.value.toLowerCase();
+                tbody.innerHTML = "";
+                tableData.forEach(element => {
+                    if (element.cognome.toLowerCase().includes(query)) {
+                        tbody.innerHTML += `<tr><td>${element.nome}</td><td>${element.cognome}</td><td>${element.data_nascita}</td><td>${getGenerazione(element.data_nascita)}</td><td>${element.classe}</td></tr>`;
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
