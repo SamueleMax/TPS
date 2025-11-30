@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "nome": "Computer portatile",
+        "prezzo": 500,
+        "stock": 10,
+        "categoria": "Elettronica",
+        "descrizione": "Un computer portatile potente e leggero",
+        "marca": "HP",
+        "valutazione": 4.5
+    },
+    {
+        "id": 2,
+        "nome": "Smartphone",
+        "prezzo": 300,
+        "stock": 25,
+        "categoria": "Elettronica",
+        "descrizione": "Uno smartphone con fotocamera ad alta risoluzione",
+        "marca": "Samsung",
+        "valutazione": 4.7
+    },
+    {
+        "id": 3,
+        "nome": "Cuffie Bluetooth",
+        "prezzo": 80,
+        "stock": 50,
+        "categoria": "Elettronica",
+        "descrizione": "Cuffie wireless con cancellazione del rumore",
+        "marca": "Sony",
+        "valutazione": 4.3
+    },
+    {
+        "id": 4,
+        "nome": "Apple Watch",
+        "prezzo": 150,
+        "stock": 30,
+        "categoria": "Elettronica",
+        "descrizione": "Un orologio intelligente con monitoraggio della salute",
+        "marca": "Apple",
+        "valutazione": 4.6
+    },
+    {
+        "id": 5,
+        "nome": "Boeing 747",
+        "prezzo": 500000000,
+        "stock": 1,
+        "categoria": "Altro",
+        "descrizione": "Uno degli aerei di linea più grandi al mondo, che ha rivoluzionato il trasporto aereo commerciale sin dal suo primo volo nel 1969, tanto da essere soprannominato 'Regina dei cieli'",
+        "marca": "Boeing",
+        "valutazione": 5.0
+    }
+]

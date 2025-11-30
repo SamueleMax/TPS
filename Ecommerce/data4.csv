@@ -1,0 +1,7 @@
+id,nome,prezzo,stock,categoria,descrizione,marca,valutazione
+11,Sedia da ufficio,250,20,Casa,Sedia da ufficio ergonomica,Ikea,4.2
+12,Tavolo da cucina,300,15,Casa,Tavolo da cucina in legno massello,Ikea,4.5
+13,Divano letto,600,10,Casa,Divano letto matrimoniale,Grancasa,4.3,
+14,Chitarra elettrica,1000,5,Musica,Chitarra elettrica Stratocaster serie American Vintage II,Fender,4.8
+15,Amplificatore per chitarra,500,8,Musica,Amplificatore per chitarra elettrica da 50W,Marshall,4.9
+16,Batteria acustica,1200,3,Musica,Batteria acustica completa con piatti e sgabello,Yamaha,4.7

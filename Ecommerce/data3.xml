@@ -1,0 +1,52 @@
+<prodotti>
+    <prodotto>
+        <id>6</id>
+        <nome>Tablet</nome>
+        <prezzo>250</prezzo>
+        <stock>15</stock>
+        <categoria>Elettronica</categoria>
+        <descrizione>Tablet leggero con schermo ad alta definizione</descrizione>
+        <marca>Lenovo</marca>
+        <valutazione>4.4</valutazione>
+    </prodotto>
+    <prodotto>
+        <id>7</id>
+        <nome>Lavatrice</nome>
+        <prezzo>300</prezzo>
+        <stock>20</stock>
+        <categoria>Casa</categoria>
+        <descrizione>Lavatrice efficiente con diverse modalità di lavaggio</descrizione>
+        <marca>Samsung</marca>
+        <valutazione>4.2</valutazione>
+    </prodotto>
+    <prodotto>
+        <id>8</id>
+        <nome>Forno Elettrico</nome>
+        <prezzo>250</prezzo>
+        <stock>60</stock>
+        <categoria>Casa</categoria>
+        <descrizione>Forno elettrico con diverse modalità di cottura</descrizione>
+        <marca>Bosch</marca>
+        <valutazione>4.1</valutazione>
+    </prodotto>
+    <prodotto>
+        <id>9</id>
+        <nome>Appartamento in Piazza del Duomo</nome>
+        <prezzo>3600000</prezzo>
+        <stock>1</stock>
+        <categoria>Altro</categoria>
+        <descrizione>Appartamento di lusso situato in Piazza del Duomo, Milano</descrizione>
+        <marca>Immobiliare</marca>
+        <valutazione>4.5</valutazione>
+    </prodotto>
+    <prodotto>
+        <id>10</id>
+        <nome>Shibuya</nome>
+        <prezzo>200000000000</prezzo>
+        <stock>1</stock>
+        <categoria>Altro</categoria>
+        <descrizione>L'intero quartiere di Shibuya a Tokyo</descrizione>
+        <marca>Governo del Giappone</marca>
+        <valutazione>4.8</valutazione>
+    </prodotto>
+</prodotti>

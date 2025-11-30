@@ -1,0 +1,35 @@
+id: 17
+nome: Cavo per chitarra
+prezzo: 15
+stock: 50
+categoria: Musica
+descrizione: Cavo per chitarra da 3 metri
+marca: Thomann
+valutazione: 4.6
+
+id: 18
+nome: Bacchette per batteria
+prezzo: 10
+stock: 100
+categoria: Musica
+descrizione: Bacchette per batteria in legno d'acero
+marca: Promark
+valutazione: 4.5
+
+id: 19
+nome: Plettri per chitarra
+prezzo: 5
+stock: 200
+categoria: Musica
+descrizione: Set di 12 plettri per chitarra
+marca: Dunlop
+valutazione: 4.4
+
+id: 20
+nome: Airbus A380
+prezzo: 500000000
+stock: 1
+categoria: Altro
+descrizione: Da prendere solo se il Boeing non è più in stock
+marca: Airbus
+valutazione: 3.1

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce - Carrello</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Carrello di Ecommerce.it</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Prodotti nel Carrello</h2>
+            <div class="products" id="products"></div>
+            <div class="total-container">
+                <p id="total"></p>
+                <button type="button" onclick="downloadPDF()">Scarica PDF</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        console.log(cart);
+
+        function displayProducts(products) {
+            const productsDiv = document.getElementById('products');
+
+            productsDiv.innerHTML = '';
+
+            products.forEach(product => {
+                const productDiv = createProductCard(product);
+
+                productsDiv.appendChild(productDiv);
+            });
+
+            // Mostra totale
+            const totalP = document.getElementById('total');
+            let total = 0;
+            products.forEach(product => {
+                total += product.prezzo;
+            });
+            totalP.textContent = `Totale: ${total.toLocaleString('it-IT')}€`;
+        }
+
+        function createProductCard(product) {
+            const productDiv = document.createElement('div');
+            productDiv.className = 'product';
+
+            productDiv.innerHTML = `
+                <h3>${product.nome}</h3>
+                <p class="price">${product.prezzo.toLocaleString('it-IT')}€</p>
+                <p class="stock">Rimanenti: ${product.stock}</p>
+                <p class="desc">${product.descrizione}.</p>
+                <p class="brand">Prodotto da ${product.marca}</p>
+                <p class="rating">Media recensioni: ${product.valutazione} / 5</p>
+                <button onclick="removeFromCart(${product.id})" id="${product.id}" type="button">Rimuovi dal carrello</button>
+            `;
+
+            return productDiv;
+        }
+
+        function removeFromCart(productId) {
+            const index = cart.findIndex(p => p.id === productId);
+            cart.splice(index, 1);
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+
+            displayProducts(cart);
+        }
+
+        function downloadPDF() {
+            const doc = new jspdf.jsPDF();
+            let y = 30;
+            let total = 0;
+            doc.setFont(undefined, 'bold');
+            doc.text('Carrello di Ecommerce.it', 10, 20);
+            doc.setFont(undefined, 'normal');
+            cart.forEach(product => {
+                doc.text(`Nome: ${product.nome}`, 10, y);
+                doc.text(`Prezzo: ${product.prezzo.toLocaleString('it-IT')}€`, 10, y + 10);
+                doc.line(10, y + 20, 200, y + 20);
+                y += 30;
+                total += product.prezzo;
+            });
+            doc.text(`Totale: ${total.toLocaleString('it-IT')}€`, 10, y);
+            doc.save('carrello.pdf');
+        }
+
+        displayProducts(cart);
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
+</body>
+</html>

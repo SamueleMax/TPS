@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Benvenuti su Ecommerce.it!</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Prodotti Disponibili</h2>
+            <div id="filters">
+                <button class="catButton active" type="button" onclick="filterCategory('Tutto')" class="active">Tutto</button>
+                <button class="catButton" type="button" onclick="filterCategory('Elettronica')">Elettronica</button>
+                <button class="catButton" type="button" onclick="filterCategory('Casa')">Casa</button>
+                <button class="catButton" type="button" onclick="filterCategory('Musica')">Musica</button>
+                <button class="catButton" type="button" onclick="filterCategory('Altro')">Altro</button>
+                <button class="cartButton" type="button" onclick="goToCart()">Vai al carrello</button>
+            </div>
+            <div class="products" id="products"></div>
+        </section>
+    </main>
+
+    <script>
+        const products = [];
+        const cart = [];
+
+        async function loadProducts() {
+            // Carica prodotti JSON
+            const jsonResponse = await fetch('data2.json');
+            const jsonData = await jsonResponse.json();
+            products.push(...jsonData);
+
+            // Carica prodotti XML
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'data3.xml', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const xmlData = xhr.responseXML;
+                    const items = xmlData.getElementsByTagName('prodotto');
+                    for (let item of items) {
+                        products.push({
+                            id: parseInt(item.getElementsByTagName('id')[0].textContent),
+                            nome: item.getElementsByTagName('nome')[0].textContent,
+                            prezzo: parseInt(item.getElementsByTagName('prezzo')[0].textContent),
+                            stock: parseInt(item.getElementsByTagName('stock')[0].textContent),
+                            categoria: item.getElementsByTagName('categoria')[0].textContent,
+                            descrizione: item.getElementsByTagName('descrizione')[0].textContent,
+                            marca: item.getElementsByTagName('marca')[0].textContent,
+                            valutazione: parseFloat(item.getElementsByTagName('valutazione')[0].textContent)
+                        });
+                    }
+                }
+            };
+            xhr.send();
+
+            // Carica prodotti CSV
+            const csvResponse = await fetch('data4.csv');
+            const csvText = await csvResponse.text();
+            const csvLines = csvText.split('\n').splice(1); // Salta intestazione
+            for (let line of csvLines) {
+                const l = line.split(',');
+                products.push({
+                    id: parseInt(l[0]),
+                    nome: l[1],
+                    prezzo: parseInt(l[2]),
+                    stock: parseInt(l[3]),
+                    categoria: l[4],
+                    descrizione: l[5],
+                    marca: l[6],
+                    valutazione: parseFloat(l[7])
+                });
+            }
+
+            // Carica prodotti TXT
+            const txtResponse = await fetch('data1.txt');
+            const txtText = await txtResponse.text();
+            const txtLines = txtText.split('\n');
+            let product = {};
+            for (let i = 0; i < txtLines.length; i++) {
+                const line = txtLines[i];
+
+                // Salva il prodotto quando c'è una riga vuota
+                if (line.trim() === '') {
+                    products.push(product);
+                    product = {};
+                    continue;
+                }
+
+                const [k, v] = line.split(': ');
+                if (k === 'id' || k === 'prezzo' || k === 'stock') {
+                    product[k] = parseInt(v);
+                } else if (k === 'valutazione') {
+                    product[k] = parseFloat(v);
+                } else {
+                    product[k] = v;
+                }
+
+                // Salva ultimo prodotto anche se non c'è una riga vuota alla fine del file
+                if (i === txtLines.length - 1) {
+                    products.push(product);
+                    break;
+                }
+            }
+
+            console.log(products);
+
+            displayProducts(products);
+        }
+
+        function displayProducts(products) {
+            const productsDiv = document.getElementById('products');
+
+            productsDiv.innerHTML = '';
+
+            products.forEach(product => {
+                const productDiv = createProductCard(product);
+
+                productsDiv.appendChild(productDiv);
+            });
+        }
+
+        function createProductCard(product) {
+            const productDiv = document.createElement('div');
+            productDiv.className = 'product';
+
+            productDiv.innerHTML = `
+                <h3>${product.nome}</h3>
+                <p class="price">${product.prezzo.toLocaleString('it-IT')}€</p>
+                <p class="stock">Rimanenti: ${product.stock}</p>
+                <p class="desc">${product.descrizione}.</p>
+                <p class="brand">Prodotto da ${product.marca}</p>
+                <p class="rating">Media recensioni: ${product.valutazione} / 5</p>
+                <button onclick="addToCart(${product.id})" id="${product.id}" type="button">Aggiungi al carrello</button>
+            `;
+
+            return productDiv;
+        }
+
+        function filterCategory(category) {
+            // Cambia stato pulsanti
+            const buttons = document.getElementsByClassName('catButton');
+            for (let button of buttons) {
+                if (button.textContent === category) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            }
+
+            if (category === 'Tutto') {
+                displayProducts(products);
+            } else {
+                const filtered = products.filter(p => p.categoria === category);
+                displayProducts(filtered);
+            }
+        }
+
+        function addToCart(productId) {
+            // Rimuovi se già nel carrello
+            const index = cart.indexOf(productId);
+            if (index > -1) {
+                cart.splice(index, 1);
+                document.getElementById(productId).textContent = 'Aggiungi al carrello';
+            } else {
+                cart.push(productId);
+                document.getElementById(productId).textContent = 'Rimuovi dal carrello';
+            }
+        }
+
+        function goToCart() {
+            const productsToStore = products.filter(p => cart.includes(p.id));
+
+            sessionStorage.setItem('cart', JSON.stringify(productsToStore));
+            window.location.href = 'carrello.html';
+        }
+
+        loadProducts();
+    </script>
+</body>
+</html>
