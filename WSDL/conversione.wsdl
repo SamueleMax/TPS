@@ -1,0 +1,55 @@
+<definitions
+    name="Conversione"
+    targetNamespace="http://localhost/conversione"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://localhost/conversione"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    
+    <message name="inToCmRequest">
+        <part name="in" type="xsd:double" />
+    </message>
+
+    <message name="inToCmResponse">
+        <part name="cm" type="xsd:double" />
+    </message>
+
+    <message name="cmToInRequest">
+        <part name="cm" type="xsd:double" />
+    </message>
+
+    <message name="cmToInResponse">
+        <part name="in" type="xsd:double" />
+    </message>
+
+    <portType name="conversionePort">
+        <operation name="inToCm">
+            <input message="tns:inToCmRequest" />
+            <output message="tns:inToCmResponse" />
+        </operation>
+        <operation name="cmToIn">
+            <input message="tns:cmToInRequest" />
+            <output message="tns:cmToInResponse" />
+        </operation>
+    </portType>
+
+    <binding type="tns:conversionePort" name="binding">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="inToCm">
+            <soap:operation soapAction="http://localhost/inToCm" />
+            <input><soap:body use="literal" /></input>
+            <output><soap:body use="literal" /></output>
+        </operation>
+        <operation name="cmToIn">
+            <soap:operation soapAction="http://localhost/cmToIn" />
+            <input><soap:body use="literal" /></input>
+            <output><soap:body use="literal" /></output>
+        </operation>
+    </binding>
+
+    <service name="conversione">
+        <port name="conversione" binding="tns:binding">
+            <soap:address location="http://localhost/conversione" />
+        </port>
+    </service>
+</definitions>
